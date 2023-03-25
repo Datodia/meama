@@ -1,5 +1,10 @@
 @import url('https://free.bboxtype.com/embedfonts/?family=FiraGO:400,500');
 
+:root {
+  --black: #000000;
+  --white: #ffffff;
+}
+
 *,
 *::after,
 *::before {
