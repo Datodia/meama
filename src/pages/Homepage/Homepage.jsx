@@ -6,6 +6,7 @@ import axios from 'axios'
 import SwiperCore, { Navigation, Pagination, Autoplay } from 'swiper'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import 'swiper/swiper-bundle.css'
+import { Footer } from '../../components/Footer'
 
 SwiperCore.use([Navigation, Pagination, Autoplay])
 
@@ -17,7 +18,6 @@ export const Homepage = () => {
         axios
             .get(`https://cms.meamacollect.ge/meama-collect/api/client/${selectedLanguage}`)
             .then((res) => setData(res.data))
-        console.log(data)
     }, [selectedLanguage])
 
     return (
@@ -44,6 +44,7 @@ export const Homepage = () => {
                     </StyledSwiper>
                 </ProdDiv>
             ))}
+            <Footer />
         </Container>
     )
 }
