@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import axios from 'axios'
+import { LangContext } from '../context/LangProvider'
 
 export const Header = () => {
 
     const [show, setShow] = useState(false)
-    const [selectedLanguage, setSelectedLanguage] = useState('ka');
+    const { selectedLanguage, setSelectedLanguage } = useContext(LangContext);
     const [lngData, setLngData] = useState()
 
     useEffect(() => {
@@ -15,10 +16,7 @@ export const Header = () => {
 
             })
             .catch(err => console.log(err))
-
-
     }, [])
-
 
     const handleLanguageClick = (id) => {
         setShow(false)
@@ -62,21 +60,16 @@ export const Header = () => {
                             <Check style={{ backgroundColor: item.main && 'black' }}></Check>
                         </ModalRow>
                     ))}
-
-                    {/* {lngData.map(lang => (
-                        <div key={lang.id}>
-                            <img src={lang.image} alt={lang.name} onClick={() => handleLanguageClick(lang.id)} />
-                            <input type="checkbox" checked={lang.main} onChange={() => { }} />
-                        </div>
-                    ))} */}
                 </LanguageModal>
             }
+
         </Container>
     )
 }
 
 const Container = styled.div`
-    
+    background-image: url("assets/meamaBG.svg");
+    background-color: var(--black);
 `
 const SHeader = styled.header`
 padding: 26px;
@@ -106,6 +99,7 @@ const LanguageModal = styled.div`
     padding: 38px 30px 50px 30px;
     background-color: red;
     position: absolute;
+    z-index: 9999;
     transform: translateY(40%);
     border-radius: 30px 30px 0 0;
 `
