@@ -10,7 +10,8 @@ export const Footer = () => {
     useEffect(() => {
         axios.get('https://cms.meamacollect.ge/meama-collect/api/client/ka/contact-info')
             .then(res => setData(res.data))
-    })
+    }, [])
+
     return (
         <Container>
             <Contact>{data.name}</Contact>
@@ -19,9 +20,8 @@ export const Footer = () => {
                     <Num>{data.value}</Num>
                 </NumDiv>
                 <Soc>
-                    {data.socialLinks?.map(el => (
-                        <Link to={el.link} target="_blank">
-
+                    {data.socialLinks?.map((el, index) => (
+                        <Link key={index} to={el.link} target="_blank">
                             <img src={el.imageUrl} alt="" />
                         </Link>
                     ))}
