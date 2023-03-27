@@ -7,18 +7,15 @@ import SwiperCore, { Navigation, Pagination, Autoplay } from 'swiper'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import 'swiper/swiper-bundle.css'
 import { Footer } from '../../components/Footer'
+import { Link } from 'react-router-dom'
+import { DataContext } from '../../context/DataProvider'
 
 SwiperCore.use([Navigation, Pagination, Autoplay])
 
 export const Homepage = () => {
-    const { selectedLanguage, setSelectedLanguage } = useContext(LangContext)
-    const [data, setData] = useState()
+    const { data } = useContext(DataContext)
 
-    useEffect(() => {
-        axios
-            .get(`https://cms.meamacollect.ge/meama-collect/api/client/${selectedLanguage}`)
-            .then((res) => setData(res.data))
-    }, [selectedLanguage])
+    // console.log(data)
 
     return (
         <Container>
@@ -33,7 +30,7 @@ export const Homepage = () => {
                     >
                         {item.products.map((product) => (
                             <StyledSwiperSlide key={product.id}>
-                                <Card style={{ backgroundColor: `${product.bgColor}` }}>
+                                <Card to={`/products/${item.id}/${product.name}`} style={{ backgroundColor: `${product.bgColor}` }}>
                                     <Img src={product.mainPhoto} alt="" />
                                     <Name>{product.name}</Name>
                                     <Price>{product.price} ₾</Price>
@@ -65,7 +62,7 @@ const StyledSwiper = styled(Swiper)`
 const StyledSwiperSlide = styled(SwiperSlide)`
 `
 
-const Card = styled.div`
+const Card = styled(Link)`
     display: flex;
     flex-direction: column;
     justify-content: end;
@@ -74,6 +71,8 @@ const Card = styled.div`
     border-radius: 8px;
     height: auto;
     padding: 0 0 15px 0;
+    text-decoration: none;
+    color: var(--black);
 `
 
 const Img = styled.img`
