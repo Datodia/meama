@@ -12,7 +12,7 @@ function App() {
     <DataProvider>
       <Routes>
         <Route path='/' element={<Homepage />} />
-        <Route path='/products/:id/:name' element={<Products />} />
+        <Route path='/products/:id/:Pid' element={<Products />} />
         <Route path='/*' element={<Errorpage />} />
       </Routes>
     </DataProvider>

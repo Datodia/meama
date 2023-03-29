@@ -14,6 +14,7 @@ export const DataProvider = ({ children }) => {
             .then((res) => setData(res.data))
     }, [selectedLanguage])
 
+    // console.log(selectedLanguage)
 
     return (
         <DataContext.Provider value={{ data, setData, selectedLanguage, setSelectedLanguage }}>

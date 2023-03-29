@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Header } from '../../components/Header'
 import styled from 'styled-components'
-import { LangContext } from '../../context/LangProvider'
 import axios from 'axios'
 import SwiperCore, { Navigation, Pagination, Autoplay } from 'swiper'
 import { Swiper, SwiperSlide } from 'swiper/react'
@@ -15,7 +14,7 @@ SwiperCore.use([Navigation, Pagination, Autoplay])
 export const Homepage = () => {
     const { data } = useContext(DataContext)
 
-    // console.log(data)
+    console.log(data)
 
     return (
         <Container>
@@ -23,22 +22,46 @@ export const Homepage = () => {
             {data?.map((item) => (
                 <ProdDiv key={item.id}>
                     <Title>{item.name}</Title>
-                    <StyledSwiper
-                        spaceBetween={30}
-                        slidesPerView={2.2}
-                        autoplay={{ delay: 3000 }}
-                    >
-                        {item.products.map((product) => (
-                            <StyledSwiperSlide key={product.id}>
-                                <Card to={`/products/${item.id}/${product.name}`} style={{ backgroundColor: `${product.bgColor}` }}>
-                                    <Img src={product.mainPhoto} alt="" />
-                                    <Name>{product.name}</Name>
-                                    <Price>{product.price} ₾</Price>
-                                </Card>
-
-                            </StyledSwiperSlide>
-                        ))}
-                    </StyledSwiper>
+                    {item.products.length === 0 ? (
+                        item.subCategories.map((subCategory) => (
+                            <div key={subCategory.id}>
+                                <h4>{subCategory.name}</h4>
+                                <StyledSwiper
+                                    spaceBetween={30}
+                                    slidesPerView={2.2}
+                                    autoplay={{ delay: 3000 }}
+                                >
+                                    {subCategory.products.map((product) => (
+                                        <StyledSwiperSlide key={product.id}>
+                                            <Card
+                                                to={`/products/${item.id}/${product.id}`}
+                                                style={{ backgroundColor: `${product.bgColor}` }}
+                                            >
+                                                <Img src={product.mainPhoto} alt="" />
+                                                <Name>{product.name}</Name>
+                                                <Price>{product.price} ₾</Price>
+                                            </Card>
+                                        </StyledSwiperSlide>
+                                    ))}
+                                </StyledSwiper>
+                            </div>
+                        ))
+                    ) : (
+                        <StyledSwiper spaceBetween={30} slidesPerView={2.2} autoplay={{ delay: 3000 }}>
+                            {item.products.map((product) => (
+                                <StyledSwiperSlide key={product.id}>
+                                    <Card
+                                        to={`/products/${item.id}/${product.id}`}
+                                        style={{ backgroundColor: `${product.bgColor}` }}
+                                    >
+                                        <Img src={product.mainPhoto} alt="" />
+                                        <Name>{product.name}</Name>
+                                        <Price>{product.price} ₾</Price>
+                                    </Card>
+                                </StyledSwiperSlide>
+                            ))}
+                        </StyledSwiper>
+                    )}
                 </ProdDiv>
             ))}
             <Footer />
