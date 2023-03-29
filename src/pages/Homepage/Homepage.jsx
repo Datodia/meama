@@ -14,24 +14,42 @@ SwiperCore.use([Navigation, Pagination, Autoplay])
 export const Homepage = () => {
     const { data } = useContext(DataContext)
 
-    console.log(data)
+    // console.log(data)
+    const [activeSubcategoryIndexes, setActiveSubcategoryIndexes] = useState([])
+
 
     return (
         <Container>
             <Header />
-            {data?.map((item) => (
-                <ProdDiv key={item.id}>
-                    <Title>{item.name}</Title>
-                    {item.products.length === 0 ? (
-                        item.subCategories.map((subCategory) => (
-                            <div key={subCategory.id}>
-                                <h4>{subCategory.name}</h4>
+            {data?.map((item, index) => {
+                const activeSubcategoryIndex = activeSubcategoryIndexes[index] ?? 0;
+                const subCategories = item.subCategories || [];
+                return (
+                    <ProdDiv key={item.id}>
+                        <Title>{item.name}</Title>
+                        {item.products.length === 0 ? (
+                            <>
+                                <div>
+                                    {subCategories.map((subCategory, subIndex) => (
+                                        <button
+                                            key={subCategory.id}
+                                            onClick={() => {
+                                                const newIndexes = [...activeSubcategoryIndexes];
+                                                newIndexes[index] = subIndex;
+                                                setActiveSubcategoryIndexes(newIndexes);
+                                            }}
+                                            className={subIndex === activeSubcategoryIndex ? "active" : ""}
+                                        >
+                                            {subCategory.name}
+                                        </button>
+                                    ))}
+                                </div>
                                 <StyledSwiper
                                     spaceBetween={30}
                                     slidesPerView={2.2}
                                     autoplay={{ delay: 3000 }}
                                 >
-                                    {subCategory.products.map((product) => (
+                                    {subCategories[activeSubcategoryIndex]?.products?.map((product) => (
                                         <StyledSwiperSlide key={product.id}>
                                             <Card
                                                 to={`/products/${item.id}/${product.id}`}
@@ -42,31 +60,32 @@ export const Homepage = () => {
                                                 <Price>{product.price} ₾</Price>
                                             </Card>
                                         </StyledSwiperSlide>
-                                    ))}
+                                    )
+                                    )}
                                 </StyledSwiper>
-                            </div>
-                        ))
-                    ) : (
-                        <StyledSwiper spaceBetween={30} slidesPerView={2.2} autoplay={{ delay: 3000 }}>
-                            {item.products.map((product) => (
-                                <StyledSwiperSlide key={product.id}>
-                                    <Card
-                                        to={`/products/${item.id}/${product.id}`}
-                                        style={{ backgroundColor: `${product.bgColor}` }}
-                                    >
-                                        <Img src={product.mainPhoto} alt="" />
-                                        <Name>{product.name}</Name>
-                                        <Price>{product.price} ₾</Price>
-                                    </Card>
-                                </StyledSwiperSlide>
-                            ))}
-                        </StyledSwiper>
-                    )}
-                </ProdDiv>
-            ))}
+                            </>
+                        ) : (
+                            <StyledSwiper spaceBetween={30} slidesPerView={2.2} autoplay={{ delay: 3000 }}>
+                                {item.products.map((product) => (
+                                    <StyledSwiperSlide key={product.id}>
+                                        <Card
+                                            to={`/products/${item.id}/${product.id}`}
+                                            style={{ backgroundColor: `${product.bgColor}` }}
+                                        >
+                                            <Img src={product.mainPhoto} alt="" />
+                                            <Name>{product.name}</Name>
+                                            <Price>{product.price} ₾</Price>
+                                        </Card>
+                                    </StyledSwiperSlide>
+                                ))}
+                            </StyledSwiper>
+                        )}
+                    </ProdDiv>
+                );
+            })}
             <Footer />
         </Container>
-    )
+    );
 }
 
 const Container = styled.div`
