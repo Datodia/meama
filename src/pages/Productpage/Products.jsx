@@ -12,16 +12,20 @@ export const Products = () => {
     const [photo, setPhoto] = useState('')
 
 
-
     useEffect(() => {
         if (data) {
             const filterOne = data?.filter((item) => item.id == id);
             const filterTwo = filterOne[0]?.products?.filter((el) => el.id == Pid);
+            const filterThree = filterOne[0]?.subCategories[0]?.products?.filter(el => el.id == Pid)
             if (filterTwo && filterTwo.length > 0) {
                 setFilteredArray(filterTwo[0]);
             }
+
+            if (filterThree) {
+                setFilteredArray(filterThree[0])
+            }
         }
-    }, [data, selectedLanguage, id, name]);
+    }, [data, selectedLanguage, id]);
 
     const changePhoto = (el) => {
         setPhoto(el)
@@ -40,7 +44,7 @@ export const Products = () => {
                             <VolNum>{filteredArray?.specifications?.[0]?.value}</VolNum>
                             <ImgArray>
                                 {filteredArray?.imgUrls?.map(el => (
-                                    <ImgItem onClick={() => changePhoto(el)} src={el} />
+                                    <ImgItem key={el} onClick={() => changePhoto(el)} src={el} />
                                 ))}
                             </ImgArray>
                         </Info>

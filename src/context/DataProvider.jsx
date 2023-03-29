@@ -6,6 +6,8 @@ export const DataContext = createContext()
 export const DataProvider = ({ children }) => {
     const [selectedLanguage, setSelectedLanguage] = useState('ka')
     const [data, setData] = useState([])
+    // const [index, setIndex] = useState(0)
+
 
 
     useEffect(() => {
