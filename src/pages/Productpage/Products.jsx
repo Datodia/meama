@@ -6,8 +6,8 @@ import styled from 'styled-components';
 
 
 export const Products = () => {
-    const { id, name } = useParams();
-    const { data } = useContext(DataContext);
+    const { id, Pid } = useParams();
+    const { data, selectedLanguage } = useContext(DataContext);
     const [filteredArray, setFilteredArray] = useState({});
     const [photo, setPhoto] = useState('')
 
@@ -16,39 +16,46 @@ export const Products = () => {
     useEffect(() => {
         if (data) {
             const filterOne = data?.filter((item) => item.id == id);
-            const filterTwo = filterOne[0]?.products?.filter((el) => el.name == name);
-            setFilteredArray(filterTwo[0]);
+            const filterTwo = filterOne[0]?.products?.filter((el) => el.id == Pid);
+            if (filterTwo && filterTwo.length > 0) {
+                setFilteredArray(filterTwo[0]);
+            }
         }
-    }, []);
+    }, [data, selectedLanguage, id, name]);
 
     const changePhoto = (el) => {
         setPhoto(el)
     }
 
-    console.log(filteredArray)
     return (
         <Container>
             <Header id={id} />
-            <Wrapper>
-                <Info>
-                    <Price>{filteredArray.name}</Price>
-                    <Price>{filteredArray.price} ₾</Price>
-                    <Vol>{filteredArray?.specifications?.[0]?.name}</Vol>
-                    <VolNum>{filteredArray?.specifications?.[0]?.value}</VolNum>
-                    <ImgArray>
-                        {filteredArray?.imgUrls?.map(el => (
-                            <ImgItem onClick={() => changePhoto(el)} src={el} />
-                        ))}
-                    </ImgArray>
-                </Info>
-                <ImgDiv style={{ backgroundColor: `${filteredArray.bgColor}` }}>
-                    {photo ? <Img src={photo} /> : <Img src={filteredArray.mainPhoto} />}
-                </ImgDiv>
+            {filteredArray ? (
+                <>
+                    <Wrapper>
+                        <Info>
+                            <Price>{filteredArray?.name}</Price>
+                            <Price>{filteredArray?.price} ₾</Price>
+                            <Vol>{filteredArray?.specifications?.[0]?.name}</Vol>
+                            <VolNum>{filteredArray?.specifications?.[0]?.value}</VolNum>
+                            <ImgArray>
+                                {filteredArray?.imgUrls?.map(el => (
+                                    <ImgItem onClick={() => changePhoto(el)} src={el} />
+                                ))}
+                            </ImgArray>
+                        </Info>
+                        <ImgDiv style={{ backgroundColor: `${filteredArray?.bgColor}` }}>
+                            {photo ? <Img src={photo} /> : <Img src={filteredArray?.mainPhoto} />}
+                        </ImgDiv>
 
-            </Wrapper>
-            <DescDiv>
-                <p>{filteredArray.title}</p>
-            </DescDiv>
+                    </Wrapper>
+                    <DescDiv>
+                        <p>{filteredArray?.title}</p>
+                    </DescDiv>
+                </>
+            ) : (
+                <p>Loading...</p>
+            )}
         </Container>
     );
 };

@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import axios from 'axios'
-import { LangContext } from '../context/LangProvider'
 import { DataContext } from '../context/DataProvider'
 import { Link } from 'react-router-dom'
 
