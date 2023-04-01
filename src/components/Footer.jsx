@@ -22,7 +22,7 @@ export const Footer = () => {
                 <Soc>
                     {data.socialLinks?.map((el, index) => (
                         <Link key={index} to={el.link} target="_blank">
-                            <img src={el.imageUrl} alt="" />
+                            <Img src={el.imageUrl} alt="" />
                         </Link>
                     ))}
                 </Soc>
@@ -34,11 +34,18 @@ export const Footer = () => {
 const Container = styled.footer`
     border-top: 1px solid var(--gray);
     padding: 25px;
+
+    @media screen and (min-width: 600px){
+        padding: 50px;
+    }
 `
 const Contact = styled.p`
     font-size: 14px;
     font-weight: 400;
     color: var(--gray);
+    @media screen and (min-width: 600px){
+        font-size: 20px;
+    }
 `
 const Sdiv = styled.div`
     display: flex;
@@ -50,8 +57,20 @@ const NumDiv = styled.div`
 `
 const Num = styled.h1`
     font-size: 20px;
+    @media screen and (min-width: 600px){
+        font-size: 25px;
+    }
 `
 const Soc = styled.div`
     display: flex;
     gap: 10px;
+    @media screen and (min-width: 600px){
+        gap: 20px;
+    }
+`
+const Img = styled.img`
+    @media screen and (min-width: 600px){
+        width: 30px;
+        height: 30px;
+    }
 `
