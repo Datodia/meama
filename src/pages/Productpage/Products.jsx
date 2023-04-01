@@ -35,7 +35,7 @@ export const Products = () => {
         <Container>
             <Header id={id} />
             {filteredArray ? (
-                <>
+                <Sdiv>
                     <Wrapper>
                         <Info>
                             <Price>{filteredArray?.name}</Price>
@@ -56,7 +56,7 @@ export const Products = () => {
                     <DescDiv>
                         <p>{filteredArray?.title}</p>
                     </DescDiv>
-                </>
+                </Sdiv>
             ) : (
                 <p>Loading...</p>
             )}
@@ -66,6 +66,11 @@ export const Products = () => {
 
 const Container = styled.div`
     
+`
+const Sdiv = styled.div`
+     @media screen and (min-width: 600px){
+        padding: 0 0 0 10%;
+    }
 `
 const Wrapper = styled.div`
     display: flex;
@@ -79,17 +84,31 @@ const Info = styled.div`
     justify-content: space-between;
     align-items: flex-start;
     gap: 15px;
+    @media screen and (min-width: 600px){
+        gap: 30px;
+    }
+   
 `
 const Price = styled.h2`
     font-size: 24px;
+    @media screen and (min-width: 600px){
+        font-size: 28px;
+    }
 `
 const Vol = styled.p`
     font-weight: 400;
     font-size: 14px;
     color: var(--gray);
+    @media screen and (min-width: 600px){
+        font-size: 18px;
+    }
 `
 const VolNum = styled.h2`
     font-size: 18px;
+
+    @media screen and (min-width: 600px){
+        font-size: 22px;
+    }
 `
 const ImgArray = styled.div`
     display: flex;
@@ -97,6 +116,11 @@ const ImgArray = styled.div`
 `
 const ImgItem = styled.img`
     width: 30px;
+    cursor: pointer;
+
+    @media screen and (min-width: 600px){
+        width: 50px;
+    }
 `
 const Img = styled.img`
     width: 200px;
@@ -106,6 +130,13 @@ const Img = styled.img`
 const ImgDiv = styled.div`
     width: 60%;
     border-radius: 50% 0 0 50%;
+
+    @media screen and (min-width: 600px){
+        width: 30%;
+        max-height: 400px
+        height: auto;
+        border-radius: 40% 0 0 40%;
+    }
 `
 const DescDiv = styled.div`
     margin-top: 30px;
